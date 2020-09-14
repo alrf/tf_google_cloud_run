@@ -18,7 +18,7 @@ resource "google_cloudbuild_trigger" "build_go_app" {
   build {
     images = ["gcr.io/shpock-yams/alexf-test:$COMMIT_SHA"] # with this name will be pushed to registry in case of success
     step {
-      name = "gcr.io/cloud-builders/alexf-test" # docker name during building
+      name = "gcr.io/cloud-builders/docker"
       args = ["build -t gcr.io/shpock-yams/alexf-test:$COMMIT_SHA -f Dockerfile ."]
     }
   }
