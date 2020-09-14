@@ -9,7 +9,7 @@ resource "google_cloudbuild_trigger" "build_go_app" {
   project  = "shpock-yams"
   github {
     owner = "alrf"
-    name  = "go-hello-test"
+    name  = "tf_google_cloud_run"
     push {
       branch = "master"
     }
