@@ -16,37 +16,33 @@ resource "google_cloudbuild_trigger" "build_go_app" {
   }
 
   build {
-    images = ["gcr.io/shpock-yams/alexf-test:$COMMIT_SHA"] # with this name will be pushed to registry in case of success
+    # images = ["gcr.io/shpock-yams/alexf-test:$COMMIT_SHA"] # with this name will be pushed to registry in case of success
+    # step {
+    #   name = "gcr.io/cloud-builders/docker"
+    #   args = ["build", "-t", "gcr.io/shpock-yams/alexf-test:$COMMIT_SHA", "-f", "Dockerfile", "."]
+    # }
+    images = ["gcr.io/shpock-yams/alexf-test:latest"] # with this name will be pushed to registry in case of success
     step {
       name = "gcr.io/cloud-builders/docker"
-      args = ["build -t gcr.io/shpock-yams/alexf-test:$COMMIT_SHA -f Dockerfile ."]
+      args = ["build", "-t", "gcr.io/shpock-yams/alexf-test:latest", "-f", "Dockerfile", "."]
     }
   }
-  # trigger_template {
-  #   branch_name = "master"
-  #   repo_name   = "my-repo"
-  # }
-
-  # substitutions = {
-  #   _FOO = "bar"
-  #   _BAZ = "qux"
-  # }
-
-  # filename = "cloudbuild.yaml"
 }
 
-# resource "google_cloud_run_service" "default" {
-#   name     = "alexf-test"
-#   location = "europe-west1"
+resource "google_cloud_run_service" "default" {
+  name     = "alexf-test"
+  location = "europe-west1"
 
-#   template {
-#     spec {
-#       containers {
-#         image = "gcr.io/cloudrun/hello"
-#       }
-#     }
-#   }
-# }
+  template {
+    spec {
+      containers {
+        #image = "gcr.io/shpock-yams/alexf-test:f4b4b9f7bc7ffd36e63b512c549f35a5df5abaa0"
+        image = "gcr.io/shpock-yams/alexf-test:latest"
+      }
+    }
+  }
+  autogenerate_revision_name = true
+}
 
 # data "google_iam_policy" "noauth" {
 #   binding {
